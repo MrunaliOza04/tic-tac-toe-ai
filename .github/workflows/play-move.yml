@@ -17,20 +17,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
         with:
-          python-version: '3.11'
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Compile
+        run: javac *.java
 
       - name: Run game
-        run: |
-          python3 game.py ${{ github.event.inputs.move }}
+        run: java Game ${{ github.event.inputs.move }}
 
       - name: Commit changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add board.json README.md
           git commit -m "Play move ${{ github.event.inputs.move }} (by $GITHUB_ACTOR)" || echo "no changes"
           git push
-
