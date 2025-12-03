@@ -1,1 +1,27 @@
+name: Vote Difficulty
+on:
+  workflow_dispatch:
+    inputs:
+      difficulty:
+        description: 'easy | medium | hard'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  vote:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set difficulty
+        run: |
+          echo "${{ github.event.inputs.difficulty }}" > difficulty.txt
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add difficulty.txt
+          git commit -m "Difficulty set to ${{ github.event.inputs.difficulty }}" || echo "no changes"
+          git push
 
