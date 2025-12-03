@@ -31,20 +31,28 @@ public class Game {
             System.exit(1);
         }
 
-        // Apply player move
-        board.cells[move] = 'X';
-        board.moves += 1;
-        board.turn = "O";
+       // Apply player move
+board.makeMove(move, 'X');
 
-        // check if player already won
-        String w = board.checkWinner();
-        if (!w.equals("")) {
-            board.winner = w;
-            board.save(boardPath);
-            updateReadme(board, readme, diffPath);
-            System.out.println("Player finished: " + w);
-            System.exit(0);
-        }
+// Check if player wins
+String winner = board.checkWinner();
+if (!winner.equals("")) {
+    board.save(boardPath);
+    updateReadme(board, readmePath, diffPath);
+    return;
+}
+
+// AI move
+board.makeAIMove(difficulty);
+
+// Check if AI wins
+winner = board.checkWinner();
+if (!winner.equals("")) {
+    board.save(boardPath);
+    updateReadme(board, readmePath, diffPath);
+    return;
+}
+
 
         // read difficulty
         String difficulty = "easy";
