@@ -84,21 +84,34 @@ public class Board {
         Files.write(p, sb.toString().getBytes());
     }
 
-    public String checkWinner() {
-        int[][] wins = {
-            {0,1,2},{3,4,5},{6,7,8},
-            {0,3,6},{1,4,7},{2,5,8},
-            {0,4,8},{2,4,6}
-        };
-        for (int[] w : wins) {
-            char a = cells[w[0]], b = cells[w[1]], c = cells[w[2]];
-            if (a != ' ' && a == b && b == c) return String.valueOf(a);
+   String checkWinner() {
+    int[][] wins = {
+        {0,1,2}, {3,4,5}, {6,7,8}, // rows
+        {0,3,6}, {1,4,7}, {2,5,8}, // columns
+        {0,4,8}, {2,4,6}           // diagonals
+    };
+
+    for (int[] w : wins) {
+        if (cells[w[0]] != ' ' &&
+            cells[w[0]] == cells[w[1]] &&
+            cells[w[1]] == cells[w[2]]) {
+
+            return String.valueOf(cells[w[0]]);
         }
-        for (char ch : cells) if (ch == ' ') return "";
-        return "D";
     }
 
-    public boolean isEmpty(int idx) {
-        return cells[idx] == ' ';
+    // Check draw
+    boolean full = true;
+    for (char c : cells) {
+        if (c == ' ') {
+            full = false;
+            break;
+        }
     }
+    
+    if (full) return "D"; // Draw
+
+    return ""; // No winner
+}
+
 }
