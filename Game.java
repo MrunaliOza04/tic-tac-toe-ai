@@ -20,9 +20,7 @@ public class Game {
         Board board = Board.load(boardPath);
 
         // reset if game finished
-        if (board.winner != null && !board.winner.equals("")) {
-            board = new Board();
-        }
+        
 
         if (move < 0 || move > 8) {
             System.err.println("move out of range");
