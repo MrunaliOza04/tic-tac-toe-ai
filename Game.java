@@ -114,32 +114,81 @@ static void updateReadme(Board board, Path readme, Path diffPath) {
         }
 
 
-        // ---------------------------------------------------
-        // SCREEN 2 → Check Winner
-        // ---------------------------------------------------
-        String winner = board.checkWinner();
-        if (!winner.equals("")) {
+       // ---------------------------------------------------
+// SCREEN 2 → GAME OVER WITH ANIMATIONS
+// ---------------------------------------------------
+String winner = board.checkWinner();
+if (!winner.equals("")) {
 
-            md.append("<h1 align=\"center\">🏁 Game Over</h1>");
+    md.append("<h1 align=\"center\" style=\"font-size:50px;\">🏁 Game Over</h1>");
 
-            if (winner.equals("X")) {
-                md.append("<h2 align=\"center\" style=\"color:#00ff99;\">🎉 You Win!</h2>");
-            } else if (winner.equals("O")) {
-                md.append("<h2 align=\"center\" style=\"color:#ff3366;\">💀 AI Wins!</h2>");
-            } else {
-                md.append("<h2 align=\"center\" style=\"color:#cccccc;\">😐 It's a Draw!</h2>");
-            }
+    if (winner.equals("X")) {
+        md.append("<h2 align=\"center\" style=\""
+            + "font-size:40px;"
+            + "color:#00ffcc;"
+            + "text-shadow:0 0 15px #00fff2, 0 0 30px #00e1ff;"
+            + "animation: neon-pulse 1.5s infinite alternate;"
+            + "\">"
+            + "✨❌ YOU WIN! ❌✨</h2>");
+    } else if (winner.equals("O")) {
+        md.append("<h2 align=\"center\" style=\""
+            + "font-size:40px;"
+            + "color:#ff3377;"
+            + "text-shadow:0 0 15px #ff3377, 0 0 35px #ff0055;"
+            + "animation: neon-pulse 1.5s infinite alternate;"
+            + "\">"
+            + "💀⭕ AI WINS! ⭕💀</h2>");
+    } else {
+        md.append("<h2 align=\"center\" style=\""
+            + "font-size:40px;"
+            + "color:#cccccc;"
+            + "text-shadow:0 0 10px #999;"
+            + "animation: fade-pulse 2s infinite alternate;"
+            + "\">"
+            + "😐 It's a Draw 😐</h2>");
+    }
 
-            // Restart button
-            String restartUrl = "https://github.com/" + OWNER + "/" + REPO + "/actions/workflows/vote-difficulty.yml";
+    // ANIMATED PLAY AGAIN BUTTON
+    String restartUrl = "https://github.com/" + OWNER + "/" + REPO + "/actions/workflows/vote-difficulty.yml";
 
-            md.append("<div align=\"center\" style=\"margin-top:30px;\">");
-            md.append("<a href=\"" + restartUrl + "\" style=\"padding:15px 40px; background:#00e1ff; color:black; border-radius:10px; font-size:22px; font-weight:bold; text-decoration:none;\">PLAY AGAIN</a>");
-            md.append("</div>");
+    md.append("<div align=\"center\" style=\"margin-top:30px;\">");
+    md.append("<a href=\"" + restartUrl + "\" style=\""
+        + "padding:15px 40px;"
+        + "background:#00e1ff;"
+        + "color:black;"
+        + "border-radius:12px;"
+        + "font-size:22px;"
+        + "font-weight:bold;"
+        + "text-decoration:none;"
+        + "box-shadow:0 0 15px #00e1ff, 0 0 30px #00bcd4;"
+        + "animation: button-pulse 1.5s infinite alternate;"
+        + "\">"
+        + "🔄 PLAY AGAIN"
+        + "</a>");
+    md.append("</div>");
 
-            Files.write(readme, md.toString().getBytes());
-            return;
-        }
+    // EXTRA: embed animations using inline SVG (allowed by GitHub)
+    md.append("<svg width=\"0\" height=\"0\">"
+        + "<style>"
+        + "@keyframes neon-pulse {"
+        + "  from { opacity: 0.7; }"
+        + "  to { opacity: 1; transform: scale(1.08); }"
+        + "}"
+        + "@keyframes fade-pulse {"
+        + "  from { opacity: 0.5; }"
+        + "  to { opacity: 1; }"
+        + "}"
+        + "@keyframes button-pulse {"
+        + "  from { box-shadow:0 0 10px #00e1ff; }"
+        + "  to { box-shadow:0 0 25px #00ffff; transform:scale(1.05); }"
+        + "}"
+        + "</style>"
+        + "</svg>");
+
+    Files.write(readme, md.toString().getBytes());
+    return;
+}
+
 
 
         // ---------------------------------------------------
