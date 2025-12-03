@@ -92,87 +92,101 @@ static void updateReadme(Board board, Path readme, Path diffPath) {
 
         StringBuilder md = new StringBuilder();
 
-        // -------------------------------------------
-        // SCREEN 1: DIFFICULTY SELECTION SCREEN
-        // -------------------------------------------
+        // ---------------------------------------------------
+        // SCREEN 1 → Difficulty Selection
+        // ---------------------------------------------------
         if (!difficultyChosen) {
-            md.append("<h1 align=\"center\">🎮 Tic Tac Toe — Choose Difficulty</h1>\n");
-            md.append("<p align=\"center\">Select a difficulty level to begin playing.</p><br>");
+            md.append("<h1 align=\"center\">🎮 Tic Tac Toe — Choose Difficulty</h1>");
+            md.append("<p align=\"center\">Select difficulty to start a new game.</p><br>");
 
             String diffUrl = "https://github.com/" + OWNER + "/" + REPO + "/actions/workflows/vote-difficulty.yml";
 
             md.append("<div align=\"center\" style=\"margin-top:20px;\">\n");
 
-            md.append("<a href=\"" + diffUrl + "\" ")
-              .append("style=\"padding:15px 30px; background:#00e1ff; color:black; border-radius:10px; ")
-              .append("margin:10px; text-decoration:none; font-size:20px; font-weight:bold;\">EASY</a>");
+            md.append("<a href=\"" + diffUrl + "\" style=\"padding:15px 30px; background:#00e1ff; color:black; border-radius:10px; margin:10px; text-decoration:none; font-size:20px; font-weight:bold;\">EASY</a>");
 
-            md.append("<a href=\"" + diffUrl + "\" ")
-              .append("style=\"padding:15px 30px; background:#ffaa00; color:black; border-radius:10px; ")
-              .append("margin:10px; text-decoration:none; font-size:20px; font-weight:bold;\">MEDIUM</a>");
+            md.append("<a href=\"" + diffUrl + "\" style=\"padding:15px 30px; background:#ffaa00; color:black; border-radius:10px; margin:10px; text-decoration:none; font-size:20px; font-weight:bold;\">MEDIUM</a>");
 
-            md.append("<a href=\"" + diffUrl + "\" ")
-              .append("style=\"padding:15px 30px; background:#ff0066; color:white; border-radius:10px; ")
-              .append("margin:10px; text-decoration:none; font-size:20px; font-weight:bold;\">HARD</a>");
+            md.append("<a href=\"" + diffUrl + "\" style=\"padding:15px 30px; background:#ff0066; color:white; border-radius:10px; margin:10px; text-decoration:none; font-size:20px; font-weight:bold;\">HARD</a>");
 
-            md.append("</div>\n");
-
-            md.append("<p align=\"center\" style=\"margin-top:40px; opacity:0.7;\">")
-              .append("Click a difficulty button → Run Workflow → Game starts automatically.")
-              .append("</p>");
+            md.append("</div>");
 
             Files.write(readme, md.toString().getBytes());
             return;
         }
 
-        // -------------------------------------------
-        // SCREEN 2: GAME BOARD SCREEN
-        // -------------------------------------------
 
-        md.append("<h1 align=\"center\">🎮 Neon Tic Tac Toe — AI</h1>\n");
+        // ---------------------------------------------------
+        // SCREEN 2 → Check Winner
+        // ---------------------------------------------------
+        String winner = board.checkWinner();
+        if (!winner.equals("")) {
+
+            md.append("<h1 align=\"center\">🏁 Game Over</h1>");
+
+            if (winner.equals("X")) {
+                md.append("<h2 align=\"center\" style=\"color:#00ff99;\">🎉 You Win!</h2>");
+            } else if (winner.equals("O")) {
+                md.append("<h2 align=\"center\" style=\"color:#ff3366;\">💀 AI Wins!</h2>");
+            } else {
+                md.append("<h2 align=\"center\" style=\"color:#cccccc;\">😐 It's a Draw!</h2>");
+            }
+
+            // Restart button
+            String restartUrl = "https://github.com/" + OWNER + "/" + REPO + "/actions/workflows/vote-difficulty.yml";
+
+            md.append("<div align=\"center\" style=\"margin-top:30px;\">");
+            md.append("<a href=\"" + restartUrl + "\" style=\"padding:15px 40px; background:#00e1ff; color:black; border-radius:10px; font-size:22px; font-weight:bold; text-decoration:none;\">PLAY AGAIN</a>");
+            md.append("</div>");
+
+            Files.write(readme, md.toString().getBytes());
+            return;
+        }
+
+
+        // ---------------------------------------------------
+        // SCREEN 3 → NEON GAME BOARD
+        // ---------------------------------------------------
+        md.append("<h1 align=\"center\">🎮 Neon Tic Tac Toe — AI</h1>");
         md.append("<p align=\"center\">Click a tile to play. You are <b>X</b>. AI is <b>O</b>.</p>");
 
         md.append("<div align=\"center\" style=\"margin-top:20px;\">\n");
         md.append("<table style=\"border-collapse: collapse; border: 2px solid #00e1ff; box-shadow: 0 0 25px #00e1ff;\">\n");
 
         for (int r = 0; r < 3; r++) {
-            md.append("<tr>\n");
+            md.append("<tr>");
             for (int c = 0; c < 3; c++) {
                 int idx = r * 3 + c;
 
-                // Neon emojis
                 String tile = switch (board.cells[idx]) {
                     case 'X' -> "❌";
                     case 'O' -> "⭕";
                     default -> "⬜";
                 };
 
-                String moveUrl = "https://github.com/" + OWNER + "/" + REPO + "/actions/workflows/play-move.yml";
+                String playUrl = "https://github.com/" + OWNER + "/" + REPO + "/actions/workflows/play-move.yml";
 
-                md.append("<td align=\"center\" width=\"120\" height=\"120\" ")
-                  .append("style=\"border:2px solid #00e1ff; padding:10px; font-size:40px; ")
-                  .append("box-shadow: inset 0 0 10px #00e1ff;\">");
+                md.append("<td align=\"center\" width=\"120\" height=\"120\" style=\"border:2px solid #00e1ff; padding:10px; font-size:40px; box-shadow: inset 0 0 10px #00e1ff;\">");
 
                 if (board.cells[idx] == ' ') {
-                    md.append("<a href=\"" + moveUrl + "\" style=\"color:#00e1ff; text-decoration:none; font-size:20px;\">")
+                    md.append("<a href=\"" + playUrl + "\" style=\"color:#00e1ff; text-decoration:none; font-size:20px;\">")
                       .append(tile).append("<br><small>Play</small></a>");
                 } else {
                     md.append(tile);
                 }
 
-                md.append("</td>\n");
+                md.append("</td>");
             }
-            md.append("</tr>\n");
+            md.append("</tr>");
         }
 
-        md.append("</table>\n</div>\n");
-
+        md.append("</table>\n</div>");
         md.append("<p align=\"center\">Current difficulty: <b>" + difficulty + "</b></p>");
 
         Files.write(readme, md.toString().getBytes());
 
     } catch (IOException ex) {
-        System.err.println("Error updating README: " + ex.getMessage());
+        System.err.println("Failed to update README: " + ex.getMessage());
     }
 }
 
