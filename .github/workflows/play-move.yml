@@ -1,1 +1,36 @@
+name: Play Move
+on:
+  workflow_dispatch:
+    inputs:
+      move:
+        description: 'Tile index 0-8'
+        required: true
+        type: number
+
+permissions:
+  contents: write
+
+jobs:
+  play:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Run game
+        run: |
+          python3 game.py ${{ github.event.inputs.move }}
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add board.json README.md
+          git commit -m "Play move ${{ github.event.inputs.move }} (by $GITHUB_ACTOR)" || echo "no changes"
+          git push
 
