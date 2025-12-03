@@ -24,4 +24,5 @@ jobs:
           git add difficulty.txt
           git commit -m "Difficulty set to ${{ github.event.inputs.difficulty }}" || echo "no changes"
           git push
-
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
