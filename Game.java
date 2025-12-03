@@ -79,32 +79,59 @@ public class Game {
         System.out.println("Done");
     }
 
-    static void updateReadme(Board board, Path readme, Path diffPath) {
-        try {
-            String diff = Files.exists(diffPath) ? new String(Files.readAllBytes(diffPath)).trim() : "easy";
-            StringBuilder md = new StringBuilder();
-            md.append("# 🎮 Tic Tac Toe — AI Game\n\n");
-            md.append("Click a tile to play (you are **X**). After you click, run the `Play Move` workflow.\n\n");
-            md.append("<table>\n");
-            for (int r=0;r<3;r++) {
-                md.append("<tr>\n");
-                for (int c=0;c<3;c++) {
-                    int i = r*3 + c;
-                    String text = board.cells[i] == ' ' ? ("[ " + (i+1) + " ]") : String.valueOf(board.cells[i]);
-                    String url = "https://github.com/" + OWNER + "/" + REPO + "/actions/workflows/play-move.yml";
-                    md.append("<td align=\"center\" width=\"140\" height=\"140\">");
-                    md.append(text);
-                    md.append("<br><a href=\"" + url + "\">Play</a>");
-                    md.append("</td>\n");
+  static void updateReadme(Board board, Path readme, Path diffPath) {
+    try {
+        String diff = Files.exists(diffPath) ? new String(Files.readAllBytes(diffPath)).trim() : "easy";
+
+        StringBuilder md = new StringBuilder();
+        md.append("<h1 align=\"center\">🎮 Neon Tic Tac Toe — AI</h1>\n");
+        md.append("<p align=\"center\">Click a tile to play. You are <b>X</b>. AI is <b>O</b>.</p>");
+        
+        md.append("<div align=\"center\" style=\"margin-top:20px;\">\n");
+        md.append("<table style=\"border-collapse: collapse; border: 2px solid #00e1ff; box-shadow: 0 0 25px #00e1ff;\">\n");
+
+        for (int r = 0; r < 3; r++) {
+            md.append("<tr>\n");
+            for (int c = 0; c < 3; c++) {
+                int i = r * 3 + c;
+
+                // Select emojis
+                String tile;
+                if (board.cells[i] == 'X') tile = "❌";
+                else if (board.cells[i] == 'O') tile = "⭕";
+                else tile = "⬜";
+
+                // Workflow link
+                String url = "https://github.com/" + OWNER + "/" + REPO + "/actions/workflows/play-move.yml";
+
+                md.append(
+                    "<td align=\"center\" width=\"120\" height=\"120\" " +
+                    "style=\"border: 2px solid #00e1ff; font-size: 40px; padding: 10px; " +
+                    "box-shadow: inset 0 0 10px #00e1ff;\">\n"
+                );
+
+                // Tile or link
+                if (board.cells[i] == ' ') {
+                    md.append("<a href=\"" + url + "\" style=\"color:#00e1ff; text-decoration:none; font-size:20px;\">")
+                      .append(tile).append("<br><small>Play</small></a>");
+                } else {
+                    md.append(tile);
                 }
-                md.append("</tr>\n");
+
+                md.append("</td>\n");
             }
-            md.append("</table>\n\n");
-            md.append("Current difficulty: **" + diff + "**\n");
-            Files.write(readme, md.toString().getBytes());
-        } catch (IOException ex) {
-            System.err.println("Failed to update README: " + ex.getMessage());
+            md.append("</tr>\n");
         }
+
+        md.append("</table>\n</div>\n\n");
+        md.append("<p align=\"center\">Current difficulty: <b>" + diff + "</b></p>");
+
+        Files.write(readme, md.toString().getBytes());
+
+    } catch (IOException ex) {
+        System.err.println("Failed to update README neon UI: " + ex.getMessage());
     }
+}
+
 }
 
