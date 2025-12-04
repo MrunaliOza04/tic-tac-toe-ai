@@ -100,7 +100,7 @@ public class Game {
 
             StringBuilder md = new StringBuilder();
 
-          // SCREEN 1 — Difficulty Select
+     // SCREEN 1 — Difficulty Select
 if (!chosen) {
 
     md.append("<h1 align=\"center\">🎮 Tic Tac Toe — Choose Difficulty</h1>");
@@ -111,17 +111,15 @@ if (!chosen) {
     md.append("<div align=\"center\" style=\"margin-top:25px; font-size:26px; font-weight:bold;\">");
 
     md.append("<a href=\"" + diffUrl + "\" style=\"margin:0 20px; color:#00e1ff; text-decoration:none;\">Easy</a>");
-    md.append("<span style=\"color:#888;\">|</span>");
+    md.append("<span style=\"color:#888;\"> | </span>");
     md.append("<a href=\"" + diffUrl + "\" style=\"margin:0 20px; color:#ffaa00; text-decoration:none;\">Medium</a>");
-    md.append("<span style=\"color:#888;\">|</span>");
+    md.append("<span style=\"color:#888;\"> | </span>");
     md.append("<a href=\"" + diffUrl + "\" style=\"margin:0 20px; color:#ff0066; text-decoration:none;\">Hard</a>");
 
     md.append("</div>");
 
     Files.write(readme, md.toString().getBytes());
     return;
-}
-
 }
 
 
