@@ -13,6 +13,10 @@ public class Board {
         Arrays.fill(cells, ' ');
     }
 
+    public boolean isEmpty(int i) {
+    return cells[i] == ' ';
+}
+
     public static Board load(Path p) throws IOException {
         if (!Files.exists(p)) {
             Board b = new Board();
