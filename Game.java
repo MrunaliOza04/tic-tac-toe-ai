@@ -103,23 +103,28 @@ public class Game {
             // -------------------------
             // SCREEN 1 — Difficulty Select
             // -------------------------
-            if (!chosen) {
-                md.append("<h1 align=\"center\">🎮 Tic Tac Toe — Choose Difficulty</h1>");
-                md.append("<p align=\"center\">Select difficulty to start.</p><br>");
+           // SCREEN 1 — Difficulty Select
+if (!chosen) {
 
-                String diffUrl = "https://github.com/" + OWNER + "/" + REPO + "/actions/workflows/vote-difficulty.yml";
+    md.append("<h1 align=\"center\">🎮 Tic Tac Toe — Choose Difficulty</h1>");
+    md.append("<p align=\"center\">Select difficulty to start.</p><br>");
 
-                md.append("<div align=\"center\" style=\"margin-top:20px;\">\n");
+    String diffUrl = "https://github.com/" + OWNER + "/" + REPO + "/actions/workflows/vote-difficulty.yml";
 
-                md.append(button(diffUrl,"EASY","#00e1ff","black"));
-                md.append(button(diffUrl,"MEDIUM","#ffaa00","black"));
-                md.append(button(diffUrl,"HARD","#ff0066","white"));
+    md.append("<div align=\"center\" style=\"margin-top:20px; font-size:22px;\">");
 
-                md.append("</div>");
+    md.append("<a href=\"" + diffUrl + "\" style=\"margin:0 15px; text-decoration:none; color:#00e1ff; font-weight:bold;\">Easy</a>");
+    md.append("<span style=\"color:#666;\">|</span>");
+    md.append("<a href=\"" + diffUrl + "\" style=\"margin:0 15px; text-decoration:none; color:#ffaa00; font-weight:bold;\">Medium</a>");
+    md.append("<span style=\"color:#666;\">|</span>");
+    md.append("<a href=\"" + diffUrl + "\" style=\"margin:0 15px; text-decoration:none; color:#ff0066; font-weight:bold;\">Hard</a>");
 
-                Files.write(readme, md.toString().getBytes());
-                return;
-            }
+    md.append("</div>");
+
+    Files.write(readme, md.toString().getBytes());
+    return;
+}
+
 
             // -------------------------
             // SCREEN 2 — GAME OVER
