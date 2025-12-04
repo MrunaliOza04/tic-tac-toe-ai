@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Neon Tic Tac Toe — Live</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container">
+    <header>
+      <h1>🎮 Neon Tic Tac Toe — Live</h1>
+      <p class="subtitle">You are <strong>X</strong>. AI is <strong>O</strong>.</p>
+    </header>
+
+    <section class="controls">
+      <div class="difficulty">
+        <button data-diff="easy" class="diff-btn active">Easy</button>
+        <span class="bar">|</span>
+        <button data-diff="medium" class="diff-btn">Medium</button>
+        <span class="bar">|</span>
+        <button data-diff="hard" class="diff-btn">Hard</button>
+      </div>
+      <div class="status" id="status">Difficulty: <b id="diffLabel">easy</b></div>
+    </section>
+
+    <section class="board-wrap">
+      <div id="board" class="board">
+        <!-- 9 cells -->
+        <div class="cell" data-i="0"></div>
+        <div class="cell" data-i="1"></div>
+        <div class="cell" data-i="2"></div>
+        <div class="cell" data-i="3"></div>
+        <div class="cell" data-i="4"></div>
+        <div class="cell" data-i="5"></div>
+        <div class="cell" data-i="6"></div>
+        <div class="cell" data-i="7"></div>
+        <div class="cell" data-i="8"></div>
+      </div>
+    </section>
+
+    <section class="footer">
+      <div id="message" class="message"></div>
+      <div class="actions">
+        <button id="restart">Restart</button>
+        <a class="live-link" id="openProfile" href="#" target="_blank">Open in new tab</a>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
